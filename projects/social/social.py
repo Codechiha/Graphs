@@ -110,7 +110,32 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    print(sg.friendships)
+    start_time = time.time()
+    sg.populateGraph(1000, 5)
+    end_time = time.time()
+    print (f"runtime: {end_time - start_time} seconds")
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    # print(sg.friendships)
+    # print(connections)
+    total = 0
+    for userID in connections:
+        total += len(connections[userID]) - 1
+    print(len(connections))
+    print(total / len(connections))
+
+    totalConnections = 0
+    totalDegrees = 0
+    iterations = 10
+    for i in range(0, iterations):
+        sg.populateGraph(1000, 5)
+        connections = sg.getAllSocialPaths(1)
+        total = 0
+        for userID in connections:
+            total += len(connections[userID]) - 1
+        totalConnections += len(connections)
+        totalDegrees += total / len(connections)
+        print("-----")
+        print(f"Friends in network: {len(connections)}")
+        print(f"Avg degrees: {total / len(connections)}")
+    print(totalConnections / iterations)
+    print(totalDegrees / iterations)
